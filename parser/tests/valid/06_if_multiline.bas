@@ -1,0 +1,12 @@
+LET SCORE = 85
+IF SCORE >= 90 THEN
+    GRADE$ = "A"
+ELSEIF SCORE >= 80 THEN
+    GRADE$ = "B"
+ELSEIF SCORE >= 70 THEN
+    GRADE$ = "C"
+ELSE
+    GRADE$ = "F"
+END IF
+PRINT "Grade is "; GRADE$
+

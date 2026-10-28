@@ -1,0 +1,3 @@
+WHILE X < 10
+    PRINT X
+

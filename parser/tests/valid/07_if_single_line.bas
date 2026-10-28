@@ -1,0 +1,3 @@
+IF X > 10 THEN PRINT "High" ELSE PRINT "Low"
+IF Y = 0 THEN PRINT "Zero"
+

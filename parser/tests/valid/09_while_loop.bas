@@ -1,0 +1,6 @@
+COUNT = 1
+WHILE COUNT <= 5
+    PRINT "Count is "; COUNT
+    COUNT = COUNT + 1
+WEND
+

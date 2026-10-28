@@ -1,0 +1,3 @@
+IF A > 10 THEN
+    PRINT A
+

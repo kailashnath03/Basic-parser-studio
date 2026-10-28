@@ -1,0 +1,4 @@
+FOR I = 1 10
+    PRINT I
+NEXT
+

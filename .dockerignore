@@ -1,0 +1,25 @@
+# Ignore dependencies
+**/node_modules
+node_modules
+backend/node_modules
+frontend/node_modules
+
+# Ignore frontend build and source not needed in backend container
+frontend
+
+# Ignore Windows parser binaries and build artifacts
+parser/basic_parser.exe
+parser/*.o
+parser/parser.tab.c
+parser/parser.tab.h
+parser/lex.yy.c
+parser/parser.output
+
+# Ignore git and logs
+.git
+.github
+*.log
+.env
+backend/.env
+frontend/.env
+

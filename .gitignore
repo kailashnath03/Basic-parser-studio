@@ -1,0 +1,26 @@
+# Compiled binaries and parser generated files
+parser/*.o
+parser/parser.tab.c
+parser/parser.tab.h
+parser/lex.yy.c
+parser/parser.output
+parser/basic_parser
+parser/basic_parser.exe
+
+# Node dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Frontend build artifacts
+frontend/dist/
+
+# Logs and environment files
+*.log
+backend/.env
+frontend/.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+

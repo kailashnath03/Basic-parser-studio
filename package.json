@@ -1,0 +1,26 @@
+{
+  "name": "basic-parser-studio",
+  "version": "1.0.0",
+  "description": "BASIC Language Parser Studio using Flex and GNU Bison in Yacc-compatible mode",
+  "scripts": {
+    "build:parser": "cd parser && make all",
+    "test:parser": "node parser/run_tests.js",
+    "test:api": "cd backend && npm test",
+    "test": "node parser/run_tests.js",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "build": "cd parser && make all && cd ../frontend && npm run build"
+  },
+  "keywords": [
+    "compiler-design",
+    "flex",
+    "bison",
+    "yacc",
+    "basic",
+    "parser",
+    "ast"
+  ],
+  "author": "Compiler Design Engineering Team",
+  "license": "MIT"
+}
+

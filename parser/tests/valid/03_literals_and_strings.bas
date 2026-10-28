@@ -1,0 +1,6 @@
+PI = 3.14159
+RADIUS = 5.5
+NAME$ = "BASIC Studio"
+PRINT NAME$
+PRINT "Area = "; PI * RADIUS ^ 2
+
