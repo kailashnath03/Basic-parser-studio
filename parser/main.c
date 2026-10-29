@@ -5,6 +5,13 @@
 #include "ast.h"
 #include "parser.tab.h"
 
+/* Flex buffer API — allows scanning an in-memory buffer instead of a file.
+   This is the portable, safe approach: no tmpfile(), no rewind(stdin). */
+typedef struct yy_buffer_state *YY_BUFFER_STATE;
+extern YY_BUFFER_STATE yy_scan_bytes(const char *bytes, int len);
+extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
+extern void yy_switch_to_buffer(YY_BUFFER_STATE buffer);
+
 extern int yyparse(void);
 extern FILE *yyin;
 extern ASTNode *g_root_ast;
@@ -17,6 +24,66 @@ extern int g_source_line_count;
 
 static void print_usage(const char *prog) {
     fprintf(stderr, "Usage: %s [--json | --tokens-only] [input_file]\n", prog);
+}
+
+/* Read entire stream into a malloc'd buffer. Returns NULL on failure.
+   *out_len receives the number of bytes read (not counting a synthetic '\n'
+   we append so the lexer always sees a final newline). */
+static char *read_all(FILE *f, size_t *out_len) {
+    size_t cap = 4096;
+    size_t len = 0;
+    char *buf = (char *)malloc(cap);
+    if (!buf) return NULL;
+
+    int c;
+    while ((c = fgetc(f)) != EOF) {
+        if (len + 2 >= cap) {   /* +2: room for the char + trailing '\n' */
+            cap *= 2;
+            char *nb = (char *)realloc(buf, cap);
+            if (!nb) { free(buf); return NULL; }
+            buf = nb;
+        }
+        buf[len++] = (char)c;
+    }
+    /* Ensure the buffer ends with a newline so the lexer emits the final EOL */
+    if (len == 0 || buf[len - 1] != '\n') {
+        buf[len++] = '\n';
+    }
+    buf[len] = '\0';
+    *out_len = len;
+    return buf;
+}
+
+/* Split a buffer (by '\n') into g_source_lines.
+   Both '\r\n' and '\n' are handled; trailing '\r' is stripped. */
+static void split_source_lines(const char *buf, size_t len) {
+    size_t lines_cap = 64;
+    g_source_lines = (char **)malloc(lines_cap * sizeof(char *));
+    g_source_line_count = 0;
+
+    const char *start = buf;
+    const char *end   = buf + len;
+
+    while (start <= end) {
+        const char *nl = memchr(start, '\n', (size_t)(end - start));
+        size_t line_len = nl ? (size_t)(nl - start) : (size_t)(end - start);
+
+        /* Strip trailing '\r' */
+        while (line_len > 0 && start[line_len - 1] == '\r') line_len--;
+
+        if ((size_t)g_source_line_count >= lines_cap) {
+            lines_cap *= 2;
+            g_source_lines = (char **)realloc(g_source_lines,
+                                               lines_cap * sizeof(char *));
+        }
+        char *copied = (char *)malloc(line_len + 1);
+        memcpy(copied, start, line_len);
+        copied[line_len] = '\0';
+        g_source_lines[g_source_line_count++] = copied;
+
+        if (!nl) break;
+        start = nl + 1;
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -40,7 +107,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /* Open input file or read from stdin */
+    /* Open input */
     FILE *in = stdin;
     if (input_path) {
         in = fopen(input_path, "r");
@@ -50,56 +117,38 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /* Read all lines to buffer for source line snippets and line counting */
-    size_t lines_cap = 64;
-    g_source_lines = (char **)malloc(lines_cap * sizeof(char *));
-    g_source_line_count = 0;
-
-    char line_buf[4096];
-    /* We also write the buffer to a temp file or memstream so lexer can scan it */
-    FILE *mem_in = tmpfile();
-    if (!mem_in) {
-        mem_in = in;
-    }
-
-    while (fgets(line_buf, sizeof(line_buf), in)) {
-        if ((size_t)g_source_line_count >= lines_cap) {
-            lines_cap *= 2;
-            g_source_lines = (char **)realloc(g_source_lines, lines_cap * sizeof(char *));
-        }
-        /* Strip trailing newline for clean snippet storage */
-        size_t l = strlen(line_buf);
-        if (mem_in != in) {
-            fputs(line_buf, mem_in);
-        }
-        while (l > 0 && (line_buf[l - 1] == '\r' || line_buf[l - 1] == '\n')) {
-            line_buf[--l] = '\0';
-        }
-        char *copied = (char *)malloc(l + 1);
-        memcpy(copied, line_buf, l + 1);
-        g_source_lines[g_source_line_count++] = copied;
-    }
+    /* Read ALL content into a memory buffer.
+       This is portable: it works on stdin, regular files, and inside Docker
+       containers where tmpfile() may fail due to /tmp restrictions. */
+    size_t src_len = 0;
+    char *src_buf = read_all(in, &src_len);
 
     if (input_path && in != stdin) {
         fclose(in);
     }
 
-    if (mem_in != in) {
-        rewind(mem_in);
-        yyin = mem_in;
-    } else {
-        rewind(in);
-        yyin = in;
+    if (!src_buf) {
+        fprintf(stderr, "Error: Failed to read input (out of memory)\n");
+        return 1;
     }
 
-    /* Initialize data structures */
-    g_token_list = token_list_create();
-    g_diagnostic_list = diagnostic_list_create();
-    g_syntax_error_count = 0;
+    /* Build the source-line array for diagnostic snippets */
+    split_source_lines(src_buf, src_len);
+
+    /* Initialize data structures BEFORE parsing begins */
+    g_token_list        = token_list_create();
+    g_diagnostic_list   = diagnostic_list_create();
+    g_syntax_error_count  = 0;
     g_lexical_error_count = 0;
+
+    /* Feed the in-memory buffer to Flex — no file I/O needed */
+    YY_BUFFER_STATE lex_buf = yy_scan_bytes(src_buf, (int)src_len);
+    free(src_buf);  /* Flex copied the bytes; we can free our buffer */
 
     /* Parse */
     int parse_result = yyparse();
+
+    yy_delete_buffer(lex_buf);
 
     bool has_errors = (g_syntax_error_count > 0 || g_lexical_error_count > 0 || parse_result != 0);
     bool is_success = !has_errors;
@@ -124,7 +173,7 @@ int main(int argc, char *argv[]) {
         printf("  \"tokens\": [\n");
         for (size_t i = 0; i < g_token_list->count; i++) {
             char *esc_type = json_escape_string(g_token_list->items[i].type);
-            char *esc_lex = json_escape_string(g_token_list->items[i].lexeme);
+            char *esc_lex  = json_escape_string(g_token_list->items[i].lexeme);
             printf("    { \"type\": \"%s\", \"lexeme\": \"%s\", \"line\": %d, \"column\": %d }%s\n",
                 esc_type,
                 esc_lex,
@@ -140,7 +189,7 @@ int main(int argc, char *argv[]) {
         printf("  \"diagnostics\": [\n");
         for (size_t i = 0; i < g_diagnostic_list->count; i++) {
             char *esc_type = json_escape_string(g_diagnostic_list->items[i].type);
-            char *esc_msg = json_escape_string(g_diagnostic_list->items[i].message);
+            char *esc_msg  = json_escape_string(g_diagnostic_list->items[i].message);
             char *esc_snip = json_escape_string(g_diagnostic_list->items[i].snippet);
             printf("    {\n");
             printf("      \"type\": \"%s\",\n", esc_type);
@@ -177,10 +226,6 @@ int main(int argc, char *argv[]) {
         printf("}\n");
     }
 
-    if (mem_in && mem_in != stdin) {
-        fclose(mem_in);
-    }
-
     /* Cleanup */
     if (g_root_ast) {
         free_ast(g_root_ast);
@@ -198,6 +243,7 @@ int main(int argc, char *argv[]) {
         free(g_source_lines[i]);
     }
     free(g_source_lines);
+    g_source_lines = NULL;
 
     return is_success ? 0 : 1;
 }
