@@ -9,7 +9,7 @@
     "test": "node parser/run_tests.js",
     "backend": "cd backend && npm start",
     "frontend": "cd frontend && npm run dev",
-    "build": "cd parser && make all && cd ../frontend && npm run build"
+    "build": "cd frontend && npm install && npm run build"
   },
   "keywords": [
     "compiler-design",
