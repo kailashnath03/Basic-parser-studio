@@ -4,6 +4,7 @@
   "description": "Express backend for BASIC Parser Studio",
   "main": "src/server.js",
   "scripts": {
+    "build": "bash ../render-build.sh || bash render-build.sh",
     "start": "node src/server.js",
     "test": "node test/api.test.js"
   },

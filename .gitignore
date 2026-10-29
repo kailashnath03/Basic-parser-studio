@@ -19,6 +19,7 @@ frontend/dist/
 *.log
 backend/.env
 frontend/.env.local
+.render-tools/
 
 # OS files
 .DS_Store

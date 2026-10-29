@@ -28,10 +28,10 @@ $(TARGET): parser.tab.c lex.yy.c ast.c main.c
 	$(CC) $(CFLAGS) -o $@ main.c ast.c parser.tab.c lex.yy.c
 
 parser.tab.c parser.tab.h: parser.y
-	$(BISON) -d -Wall parser.y
+	$(BISON) -d -Wall -o parser.tab.c parser.y
 
 lex.yy.c: lexer.l parser.tab.h
-	$(FLEX) lexer.l
+	$(FLEX) -o lex.yy.c lexer.l
 
 test: $(TARGET)
 	node run_tests.js
