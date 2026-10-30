@@ -2,7 +2,7 @@
 # Supports Linux, macOS, and Windows (MinGW / WinFlexBison)
 
 CC ?= gcc
-CFLAGS ?= -Wall -Wextra -std=c11 -O2
+CFLAGS ?= -Wall -Wextra -std=c11 -O2 -D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
 
 # Detect flex / win_flex
 ifeq ($(OS),Windows_NT)

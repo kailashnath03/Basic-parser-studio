@@ -1,6 +1,13 @@
 #ifndef AST_H
 #define AST_H
 
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -219,6 +226,7 @@ void free_ast(ASTNode *node);
 /* JSON Output Helpers */
 void print_ast_json(FILE *out, const ASTNode *node, int indent);
 char *json_escape_string(const char *input);
+char *safe_strdup(const char *s);
 
 /* Token and Diagnostic List Helpers */
 TokenList *token_list_create(void);

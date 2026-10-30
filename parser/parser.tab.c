@@ -67,7 +67,14 @@
 
 
 /* First part of user prologue.  */
-#line 1 "parser.y"
+#line 1 "E:\\BASIC LANGUAGE\\parser\\parser.y"
+
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -103,7 +110,7 @@ static SourceLocation make_loc(int line, int col) {
 extern SourceLocation current_token_loc;
 
 
-#line 107 "parser.tab.c"
+#line 114 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -599,15 +606,15 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   120,   120,   128,   131,   144,   147,   158,   161,   168,
-     172,   179,   182,   195,   196,   197,   198,   199,   200,   201,
-     202,   203,   204,   205,   210,   215,   224,   228,   232,   239,
-     242,   248,   252,   256,   263,   271,   275,   280,   288,   294,
-     305,   311,   319,   334,   337,   341,   350,   360,   363,   369,
-     372,   379,   388,   396,   405,   413,   422,   430,   438,   446,
-     449,   453,   457,   461,   465,   469,   473,   477,   481,   485,
-     489,   493,   497,   501,   505,   509,   513,   517,   524,   527,
-     530,   535,   540
+       0,   127,   127,   135,   138,   151,   154,   165,   168,   175,
+     179,   186,   189,   202,   203,   204,   205,   206,   207,   208,
+     209,   210,   211,   212,   217,   222,   231,   235,   239,   246,
+     249,   255,   259,   263,   270,   278,   282,   287,   295,   301,
+     312,   318,   326,   341,   344,   348,   357,   367,   370,   376,
+     379,   386,   395,   403,   412,   420,   429,   437,   445,   453,
+     456,   460,   464,   468,   472,   476,   480,   484,   488,   492,
+     496,   500,   504,   508,   512,   516,   520,   524,   531,   534,
+     537,   542,   547
 };
 #endif
 
@@ -1302,25 +1309,25 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: lines  */
-#line 120 "parser.y"
+#line 127 "E:\\BASIC LANGUAGE\\parser\\parser.y"
             {
         SourceLocation loc = make_loc(1, 1);
         g_root_ast = create_program_node((yyvsp[0].node_list), loc);
         (yyval.node) = g_root_ast;
     }
-#line 1312 "parser.tab.c"
+#line 1319 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 3: /* lines: %empty  */
-#line 128 "parser.y"
+#line 135 "E:\\BASIC LANGUAGE\\parser\\parser.y"
              {
         (yyval.node_list) = ast_node_list_create();
     }
-#line 1320 "parser.tab.c"
+#line 1327 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 4: /* lines: lines line  */
-#line 131 "parser.y"
+#line 138 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                  {
         (yyval.node_list) = (yyvsp[-1].node_list);
         if ((yyvsp[0].node_list)) {
@@ -1331,19 +1338,19 @@ yyreduce:
             free((yyvsp[0].node_list));
         }
     }
-#line 1335 "parser.tab.c"
+#line 1342 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 5: /* line: TOKEN_EOL  */
-#line 144 "parser.y"
+#line 151 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                 {
         (yyval.node_list) = NULL;
     }
-#line 1343 "parser.tab.c"
+#line 1350 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 6: /* line: opt_line_label statements_on_line TOKEN_EOL  */
-#line 147 "parser.y"
+#line 154 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                   {
         (yyval.node_list) = (yyvsp[-1].node_list);
         if ((yyvsp[-2].int_val) > 0 && (yyval.node_list) && (yyval.node_list)->count > 0) {
@@ -1352,54 +1359,54 @@ yyreduce:
             (yyval.node_list)->items[0] = create_labeled_stmt_node((yyvsp[-2].int_val), (yyval.node_list)->items[0], loc);
         }
     }
-#line 1356 "parser.tab.c"
+#line 1363 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 7: /* opt_line_label: %empty  */
-#line 158 "parser.y"
+#line 165 "E:\\BASIC LANGUAGE\\parser\\parser.y"
              {
         (yyval.int_val) = 0;
     }
-#line 1364 "parser.tab.c"
+#line 1371 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 8: /* opt_line_label: TOKEN_INT_LITERAL  */
-#line 161 "parser.y"
+#line 168 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                         {
         (yyval.int_val) = (int)(yyvsp[0].node)->data.num_literal.value;
         free_ast((yyvsp[0].node));
     }
-#line 1373 "parser.tab.c"
+#line 1380 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 9: /* statements_on_line: statement  */
-#line 168 "parser.y"
+#line 175 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                 {
         (yyval.node_list) = ast_node_list_create();
         if ((yyvsp[0].node)) ast_node_list_append((yyval.node_list), (yyvsp[0].node));
     }
-#line 1382 "parser.tab.c"
+#line 1389 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 10: /* statements_on_line: statements_on_line TOKEN_COLON statement  */
-#line 172 "parser.y"
+#line 179 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                {
         (yyval.node_list) = (yyvsp[-2].node_list);
         if ((yyvsp[0].node)) ast_node_list_append((yyval.node_list), (yyvsp[0].node));
     }
-#line 1391 "parser.tab.c"
+#line 1398 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 11: /* block_lines: %empty  */
-#line 179 "parser.y"
+#line 186 "E:\\BASIC LANGUAGE\\parser\\parser.y"
              {
         (yyval.node_list) = ast_node_list_create();
     }
-#line 1399 "parser.tab.c"
+#line 1406 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 12: /* block_lines: block_lines line  */
-#line 182 "parser.y"
+#line 189 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                        {
         (yyval.node_list) = (yyvsp[-1].node_list);
         if ((yyvsp[0].node_list)) {
@@ -1410,237 +1417,237 @@ yyreduce:
             free((yyvsp[0].node_list));
         }
     }
-#line 1414 "parser.tab.c"
+#line 1421 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 13: /* statement: assignment_stmt  */
-#line 195 "parser.y"
+#line 202 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1420 "parser.tab.c"
+#line 1427 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 14: /* statement: print_stmt  */
-#line 196 "parser.y"
+#line 203 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1426 "parser.tab.c"
+#line 1433 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 15: /* statement: input_stmt  */
-#line 197 "parser.y"
+#line 204 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1432 "parser.tab.c"
+#line 1439 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 16: /* statement: if_stmt  */
-#line 198 "parser.y"
+#line 205 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1438 "parser.tab.c"
+#line 1445 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 17: /* statement: for_stmt  */
-#line 199 "parser.y"
+#line 206 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1444 "parser.tab.c"
+#line 1451 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 18: /* statement: while_stmt  */
-#line 200 "parser.y"
+#line 207 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1450 "parser.tab.c"
+#line 1457 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 19: /* statement: goto_stmt  */
-#line 201 "parser.y"
+#line 208 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1456 "parser.tab.c"
+#line 1463 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 20: /* statement: gosub_stmt  */
-#line 202 "parser.y"
+#line 209 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1462 "parser.tab.c"
+#line 1469 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 21: /* statement: return_stmt  */
-#line 203 "parser.y"
+#line 210 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1468 "parser.tab.c"
+#line 1475 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 22: /* statement: end_stmt  */
-#line 204 "parser.y"
+#line 211 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1474 "parser.tab.c"
+#line 1481 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 23: /* statement: stop_stmt  */
-#line 205 "parser.y"
+#line 212 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       { (yyval.node) = (yyvsp[0].node); }
-#line 1480 "parser.tab.c"
+#line 1487 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 24: /* assignment_stmt: TOKEN_LET TOKEN_IDENTIFIER TOKEN_EQ expression  */
-#line 210 "parser.y"
+#line 217 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                      {
         SourceLocation loc = (yyvsp[0].node) ? (yyvsp[0].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_assignment_node((yyvsp[-2].str_val), (yyvsp[0].node), true, loc);
         free((yyvsp[-2].str_val));
     }
-#line 1490 "parser.tab.c"
+#line 1497 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 25: /* assignment_stmt: TOKEN_IDENTIFIER TOKEN_EQ expression  */
-#line 215 "parser.y"
+#line 222 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                            {
         SourceLocation loc = (yyvsp[0].node) ? (yyvsp[0].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_assignment_node((yyvsp[-2].str_val), (yyvsp[0].node), false, loc);
         free((yyvsp[-2].str_val));
     }
-#line 1500 "parser.tab.c"
+#line 1507 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 26: /* print_stmt: TOKEN_PRINT print_item_list_opt  */
-#line 224 "parser.y"
+#line 231 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                       {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_print_node((yyvsp[0].node_list), true, loc);
     }
-#line 1509 "parser.tab.c"
+#line 1516 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 27: /* print_stmt: TOKEN_PRINT print_item_list ','  */
-#line 228 "parser.y"
+#line 235 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                       {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_print_node((yyvsp[-1].node_list), false, loc);
     }
-#line 1518 "parser.tab.c"
+#line 1525 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 28: /* print_stmt: TOKEN_PRINT print_item_list ';'  */
-#line 232 "parser.y"
+#line 239 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                       {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_print_node((yyvsp[-1].node_list), false, loc);
     }
-#line 1527 "parser.tab.c"
+#line 1534 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 29: /* print_item_list_opt: %empty  */
-#line 239 "parser.y"
+#line 246 "E:\\BASIC LANGUAGE\\parser\\parser.y"
              {
         (yyval.node_list) = ast_node_list_create();
     }
-#line 1535 "parser.tab.c"
+#line 1542 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 30: /* print_item_list_opt: print_item_list  */
-#line 242 "parser.y"
+#line 249 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                       {
         (yyval.node_list) = (yyvsp[0].node_list);
     }
-#line 1543 "parser.tab.c"
+#line 1550 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 31: /* print_item_list: print_item  */
-#line 248 "parser.y"
+#line 255 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                  {
         (yyval.node_list) = ast_node_list_create();
         if ((yyvsp[0].node)) ast_node_list_append((yyval.node_list), (yyvsp[0].node));
     }
-#line 1552 "parser.tab.c"
+#line 1559 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 32: /* print_item_list: print_item_list ',' print_item  */
-#line 252 "parser.y"
+#line 259 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                      {
         (yyval.node_list) = (yyvsp[-2].node_list);
         if ((yyvsp[0].node)) ast_node_list_append((yyval.node_list), (yyvsp[0].node));
     }
-#line 1561 "parser.tab.c"
+#line 1568 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 33: /* print_item_list: print_item_list ';' print_item  */
-#line 256 "parser.y"
+#line 263 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                      {
         (yyval.node_list) = (yyvsp[-2].node_list);
         if ((yyvsp[0].node)) ast_node_list_append((yyval.node_list), (yyvsp[0].node));
     }
-#line 1570 "parser.tab.c"
+#line 1577 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 34: /* print_item: expression  */
-#line 263 "parser.y"
+#line 270 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                  {
         SourceLocation loc = (yyvsp[0].node) ? (yyvsp[0].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_print_item_node((yyvsp[0].node), "", loc);
     }
-#line 1579 "parser.tab.c"
+#line 1586 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 35: /* input_stmt: TOKEN_INPUT var_list  */
-#line 271 "parser.y"
+#line 278 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                            {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_input_node(NULL, NULL, (yyvsp[0].node_list), loc);
     }
-#line 1588 "parser.tab.c"
+#line 1595 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 36: /* input_stmt: TOKEN_INPUT TOKEN_STRING_LITERAL ';' var_list  */
-#line 275 "parser.y"
+#line 282 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                     {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_input_node((yyvsp[-2].str_val), ";", (yyvsp[0].node_list), loc);
         free((yyvsp[-2].str_val));
     }
-#line 1598 "parser.tab.c"
+#line 1605 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 37: /* input_stmt: TOKEN_INPUT TOKEN_STRING_LITERAL ',' var_list  */
-#line 280 "parser.y"
+#line 287 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                     {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_input_node((yyvsp[-2].str_val), ",", (yyvsp[0].node_list), loc);
         free((yyvsp[-2].str_val));
     }
-#line 1608 "parser.tab.c"
+#line 1615 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 38: /* var_list: TOKEN_IDENTIFIER  */
-#line 288 "parser.y"
+#line 295 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                        {
         (yyval.node_list) = ast_node_list_create();
         SourceLocation loc = make_loc(yylineno, 1);
         ast_node_list_append((yyval.node_list), create_var_node((yyvsp[0].str_val), loc));
         free((yyvsp[0].str_val));
     }
-#line 1619 "parser.tab.c"
+#line 1626 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 39: /* var_list: var_list ',' TOKEN_IDENTIFIER  */
-#line 294 "parser.y"
+#line 301 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                     {
         (yyval.node_list) = (yyvsp[-2].node_list);
         SourceLocation loc = make_loc(yylineno, 1);
         ast_node_list_append((yyval.node_list), create_var_node((yyvsp[0].str_val), loc));
         free((yyvsp[0].str_val));
     }
-#line 1630 "parser.tab.c"
+#line 1637 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 40: /* if_stmt: TOKEN_IF expression TOKEN_THEN TOKEN_EOL block_lines opt_else_clause TOKEN_END_IF  */
-#line 305 "parser.y"
+#line 312 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                                                         {
         SourceLocation loc = (yyvsp[-5].node) ? (yyvsp[-5].node)->location : make_loc(yylineno, 1);
         ASTNode *then_branch = create_stmt_list_node((yyvsp[-2].node_list), loc);
         (yyval.node) = create_if_node((yyvsp[-5].node), then_branch, (yyvsp[-1].node), false, loc);
     }
-#line 1640 "parser.tab.c"
+#line 1647 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 41: /* if_stmt: TOKEN_IF expression TOKEN_THEN statement  */
-#line 311 "parser.y"
+#line 318 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                                {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         ASTNodeList *then_list = ast_node_list_create();
@@ -1648,11 +1655,11 @@ yyreduce:
         ASTNode *then_branch = create_stmt_list_node(then_list, loc);
         (yyval.node) = create_if_node((yyvsp[-2].node), then_branch, NULL, true, loc);
     }
-#line 1652 "parser.tab.c"
+#line 1659 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 42: /* if_stmt: TOKEN_IF expression TOKEN_THEN statement TOKEN_ELSE statement  */
-#line 319 "parser.y"
+#line 326 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                                     {
         SourceLocation loc = (yyvsp[-4].node) ? (yyvsp[-4].node)->location : make_loc(yylineno, 1);
         ASTNodeList *then_list = ast_node_list_create();
@@ -1665,38 +1672,38 @@ yyreduce:
 
         (yyval.node) = create_if_node((yyvsp[-4].node), then_branch, else_branch, true, loc);
     }
-#line 1669 "parser.tab.c"
+#line 1676 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 43: /* opt_else_clause: %empty  */
-#line 334 "parser.y"
+#line 341 "E:\\BASIC LANGUAGE\\parser\\parser.y"
              {
         (yyval.node) = NULL;
     }
-#line 1677 "parser.tab.c"
+#line 1684 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 44: /* opt_else_clause: TOKEN_ELSE TOKEN_EOL block_lines  */
-#line 337 "parser.y"
+#line 344 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                        {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_stmt_list_node((yyvsp[0].node_list), loc);
     }
-#line 1686 "parser.tab.c"
+#line 1693 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 45: /* opt_else_clause: TOKEN_ELSEIF expression TOKEN_THEN TOKEN_EOL block_lines opt_else_clause  */
-#line 341 "parser.y"
+#line 348 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                                                {
         SourceLocation loc = (yyvsp[-4].node) ? (yyvsp[-4].node)->location : make_loc(yylineno, 1);
         ASTNode *then_branch = create_stmt_list_node((yyvsp[-1].node_list), loc);
         (yyval.node) = create_if_node((yyvsp[-4].node), then_branch, (yyvsp[0].node), false, loc);
     }
-#line 1696 "parser.tab.c"
+#line 1703 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 46: /* for_stmt: TOKEN_FOR TOKEN_IDENTIFIER TOKEN_EQ expression TOKEN_TO expression opt_step TOKEN_EOL block_lines TOKEN_NEXT opt_next_var  */
-#line 350 "parser.y"
+#line 357 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                                                                                                 {
         SourceLocation loc = make_loc(yylineno, 1);
         ASTNode *body_node = create_stmt_list_node((yyvsp[-2].node_list), loc);
@@ -1704,53 +1711,53 @@ yyreduce:
         free((yyvsp[-9].str_val));
         if ((yyvsp[0].str_val)) free((yyvsp[0].str_val));
     }
-#line 1708 "parser.tab.c"
+#line 1715 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 47: /* opt_step: %empty  */
-#line 360 "parser.y"
+#line 367 "E:\\BASIC LANGUAGE\\parser\\parser.y"
              {
         (yyval.node) = NULL;
     }
-#line 1716 "parser.tab.c"
+#line 1723 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 48: /* opt_step: TOKEN_STEP expression  */
-#line 363 "parser.y"
+#line 370 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                             {
         (yyval.node) = (yyvsp[0].node);
     }
-#line 1724 "parser.tab.c"
+#line 1731 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 49: /* opt_next_var: %empty  */
-#line 369 "parser.y"
+#line 376 "E:\\BASIC LANGUAGE\\parser\\parser.y"
              {
         (yyval.str_val) = NULL;
     }
-#line 1732 "parser.tab.c"
+#line 1739 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 50: /* opt_next_var: TOKEN_IDENTIFIER  */
-#line 372 "parser.y"
+#line 379 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                        {
         (yyval.str_val) = (yyvsp[0].str_val);
     }
-#line 1740 "parser.tab.c"
+#line 1747 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 51: /* while_stmt: TOKEN_WHILE expression TOKEN_EOL block_lines TOKEN_WEND  */
-#line 379 "parser.y"
+#line 386 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                                               {
         SourceLocation loc = make_loc(yylineno, 1);
         ASTNode *body_node = create_stmt_list_node((yyvsp[-1].node_list), loc);
         (yyval.node) = create_while_node((yyvsp[-3].node), body_node, loc);
     }
-#line 1750 "parser.tab.c"
+#line 1757 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 52: /* goto_stmt: TOKEN_GOTO TOKEN_INT_LITERAL  */
-#line 388 "parser.y"
+#line 395 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                    {
         SourceLocation loc = make_loc(yylineno, 1);
         int line_num = (int)(yyvsp[0].node)->data.num_literal.value;
@@ -1759,21 +1766,21 @@ yyreduce:
         (yyval.node) = create_goto_node(line_num, num_buf, loc);
         free_ast((yyvsp[0].node));
     }
-#line 1763 "parser.tab.c"
+#line 1770 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 53: /* goto_stmt: TOKEN_GOTO TOKEN_IDENTIFIER  */
-#line 396 "parser.y"
+#line 403 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                   {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_goto_node(0, (yyvsp[0].str_val), loc);
         free((yyvsp[0].str_val));
     }
-#line 1773 "parser.tab.c"
+#line 1780 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 54: /* gosub_stmt: TOKEN_GOSUB TOKEN_INT_LITERAL  */
-#line 405 "parser.y"
+#line 412 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                     {
         SourceLocation loc = make_loc(yylineno, 1);
         int line_num = (int)(yyvsp[0].node)->data.num_literal.value;
@@ -1782,262 +1789,262 @@ yyreduce:
         (yyval.node) = create_gosub_node(line_num, num_buf, loc);
         free_ast((yyvsp[0].node));
     }
-#line 1786 "parser.tab.c"
+#line 1793 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 55: /* gosub_stmt: TOKEN_GOSUB TOKEN_IDENTIFIER  */
-#line 413 "parser.y"
+#line 420 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                    {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_gosub_node(0, (yyvsp[0].str_val), loc);
         free((yyvsp[0].str_val));
     }
-#line 1796 "parser.tab.c"
+#line 1803 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 56: /* return_stmt: TOKEN_RETURN  */
-#line 422 "parser.y"
+#line 429 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                    {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_return_node(loc);
     }
-#line 1805 "parser.tab.c"
+#line 1812 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 57: /* end_stmt: TOKEN_END  */
-#line 430 "parser.y"
+#line 437 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                 {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_end_node(loc);
     }
-#line 1814 "parser.tab.c"
+#line 1821 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 58: /* stop_stmt: TOKEN_STOP  */
-#line 438 "parser.y"
+#line 445 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                  {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_stop_node(loc);
     }
-#line 1823 "parser.tab.c"
+#line 1830 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 59: /* expression: primary_expr  */
-#line 446 "parser.y"
+#line 453 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                    {
         (yyval.node) = (yyvsp[0].node);
     }
-#line 1831 "parser.tab.c"
+#line 1838 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 60: /* expression: expression TOKEN_OR expression  */
-#line 449 "parser.y"
+#line 456 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                      {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("OR", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1840 "parser.tab.c"
+#line 1847 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 61: /* expression: expression TOKEN_AND expression  */
-#line 453 "parser.y"
+#line 460 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                       {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("AND", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1849 "parser.tab.c"
+#line 1856 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 62: /* expression: TOKEN_NOT expression  */
-#line 457 "parser.y"
+#line 464 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                            {
         SourceLocation loc = (yyvsp[0].node) ? (yyvsp[0].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_unary_expr_node("NOT", (yyvsp[0].node), loc);
     }
-#line 1858 "parser.tab.c"
+#line 1865 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 63: /* expression: expression TOKEN_EQ expression  */
-#line 461 "parser.y"
+#line 468 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                      {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("=", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1867 "parser.tab.c"
+#line 1874 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 64: /* expression: expression TOKEN_NEQ expression  */
-#line 465 "parser.y"
+#line 472 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                       {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("<>", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1876 "parser.tab.c"
+#line 1883 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 65: /* expression: expression TOKEN_LT expression  */
-#line 469 "parser.y"
+#line 476 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                      {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("<", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1885 "parser.tab.c"
+#line 1892 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 66: /* expression: expression TOKEN_GT expression  */
-#line 473 "parser.y"
+#line 480 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                      {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node(">", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1894 "parser.tab.c"
+#line 1901 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 67: /* expression: expression TOKEN_LE expression  */
-#line 477 "parser.y"
+#line 484 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                      {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("<=", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1903 "parser.tab.c"
+#line 1910 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 68: /* expression: expression TOKEN_GE expression  */
-#line 481 "parser.y"
+#line 488 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                      {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node(">=", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1912 "parser.tab.c"
+#line 1919 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 69: /* expression: expression '+' expression  */
-#line 485 "parser.y"
+#line 492 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                 {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("+", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1921 "parser.tab.c"
+#line 1928 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 70: /* expression: expression '-' expression  */
-#line 489 "parser.y"
+#line 496 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                 {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("-", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1930 "parser.tab.c"
+#line 1937 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 71: /* expression: expression '*' expression  */
-#line 493 "parser.y"
+#line 500 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                 {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("*", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1939 "parser.tab.c"
+#line 1946 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 72: /* expression: expression '/' expression  */
-#line 497 "parser.y"
+#line 504 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                 {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("/", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1948 "parser.tab.c"
+#line 1955 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 73: /* expression: expression '\\' expression  */
-#line 501 "parser.y"
+#line 508 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                  {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("\\", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1957 "parser.tab.c"
+#line 1964 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 74: /* expression: expression TOKEN_MOD expression  */
-#line 505 "parser.y"
+#line 512 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                       {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("MOD", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1966 "parser.tab.c"
+#line 1973 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 75: /* expression: expression '^' expression  */
-#line 509 "parser.y"
+#line 516 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                 {
         SourceLocation loc = (yyvsp[-2].node) ? (yyvsp[-2].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_binary_expr_node("^", (yyvsp[-2].node), (yyvsp[0].node), loc);
     }
-#line 1975 "parser.tab.c"
+#line 1982 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 76: /* expression: '-' expression  */
-#line 513 "parser.y"
+#line 520 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                   {
         SourceLocation loc = (yyvsp[0].node) ? (yyvsp[0].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_unary_expr_node("-", (yyvsp[0].node), loc);
     }
-#line 1984 "parser.tab.c"
+#line 1991 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 77: /* expression: '+' expression  */
-#line 517 "parser.y"
+#line 524 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                                  {
         SourceLocation loc = (yyvsp[0].node) ? (yyvsp[0].node)->location : make_loc(yylineno, 1);
         (yyval.node) = create_unary_expr_node("+", (yyvsp[0].node), loc);
     }
-#line 1993 "parser.tab.c"
+#line 2000 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 78: /* primary_expr: TOKEN_INT_LITERAL  */
-#line 524 "parser.y"
+#line 531 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                         {
         (yyval.node) = (yyvsp[0].node);
     }
-#line 2001 "parser.tab.c"
+#line 2008 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 79: /* primary_expr: TOKEN_FLOAT_LITERAL  */
-#line 527 "parser.y"
+#line 534 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                           {
         (yyval.node) = (yyvsp[0].node);
     }
-#line 2009 "parser.tab.c"
+#line 2016 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 80: /* primary_expr: TOKEN_STRING_LITERAL  */
-#line 530 "parser.y"
+#line 537 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                            {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_string_literal_node((yyvsp[0].str_val), loc);
         free((yyvsp[0].str_val));
     }
-#line 2019 "parser.tab.c"
+#line 2026 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 81: /* primary_expr: TOKEN_IDENTIFIER  */
-#line 535 "parser.y"
+#line 542 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                        {
         SourceLocation loc = make_loc(yylineno, 1);
         (yyval.node) = create_var_node((yyvsp[0].str_val), loc);
         free((yyvsp[0].str_val));
     }
-#line 2029 "parser.tab.c"
+#line 2036 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
   case 82: /* primary_expr: '(' expression ')'  */
-#line 540 "parser.y"
+#line 547 "E:\\BASIC LANGUAGE\\parser\\parser.y"
                          {
         (yyval.node) = (yyvsp[-1].node);
     }
-#line 2037 "parser.tab.c"
+#line 2044 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
     break;
 
 
-#line 2041 "parser.tab.c"
+#line 2048 "E:\\BASIC LANGUAGE\\parser\\parser.tab.c"
 
       default: break;
     }
@@ -2230,7 +2237,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 545 "parser.y"
+#line 552 "E:\\BASIC LANGUAGE\\parser\\parser.y"
 
 
 const char *get_source_line_snippet(int line) {

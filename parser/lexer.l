@@ -1,4 +1,11 @@
 %{
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,7 +37,7 @@ static void record_tok(const char *type, const char *lexeme) {
 }
 
 static char *unescape_basic_string(const char *raw, int len) {
-    if (len < 2) return strdup("");
+    if (len < 2) return safe_strdup("");
     char *buf = (char *)malloc(len);
     int j = 0;
     for (int i = 1; i < len - 1; i++) {
@@ -370,7 +377,7 @@ EOL         (\r?\n)+
 {IDENT} {
     update_loc();
     record_tok("IDENTIFIER", yytext);
-    yylval.str_val = strdup(yytext);
+    yylval.str_val = safe_strdup(yytext);
     return TOKEN_IDENTIFIER;
 }
 

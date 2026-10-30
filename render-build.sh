@@ -42,7 +42,7 @@ echo "  ✓ C parser files ready: parser.tab.c, parser.tab.h, lex.yy.c"
 echo "[3/4] Compiling native parser executable (basic_parser)..."
 cd "$PARSER_DIR"
 rm -f basic_parser
-gcc -Wall -Wextra -std=c11 -O2 -o basic_parser main.c ast.c parser.tab.c lex.yy.c
+gcc -Wall -Wextra -std=c11 -O2 -D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE -o basic_parser main.c ast.c parser.tab.c lex.yy.c
 chmod +x basic_parser
 
 if [ ! -x basic_parser ]; then

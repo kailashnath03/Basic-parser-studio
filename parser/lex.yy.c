@@ -1,5 +1,6 @@
+#line 1 "E:\\BASIC LANGUAGE\\parser\\lex.yy.c"
 
-#line 2 "lex.yy.c"
+#line 3 "E:\\BASIC LANGUAGE\\parser\\lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -601,8 +602,15 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "lexer.l"
-#line 2 "lexer.l"
+#line 1 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
+#line 2 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -634,7 +642,7 @@ static void record_tok(const char *type, const char *lexeme) {
 }
 
 static char *unescape_basic_string(const char *raw, int len) {
-    if (len < 2) return strdup("");
+    if (len < 2) return safe_strdup("");
     char *buf = (char *)malloc(len);
     int j = 0;
     for (int i = 1; i < len - 1; i++) {
@@ -659,9 +667,9 @@ static char *unescape_basic_string(const char *raw, int len) {
     return buf;
 }
 
-#line 662 "lex.yy.c"
+#line 670 "E:\\BASIC LANGUAGE\\parser\\lex.yy.c"
 #define YY_NO_INPUT 1
-#line 664 "lex.yy.c"
+#line 672 "E:\\BASIC LANGUAGE\\parser\\lex.yy.c"
 
 #define INITIAL 0
 
@@ -876,10 +884,10 @@ YY_DECL
 		}
 
 	{
-#line 73 "lexer.l"
+#line 80 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 
 
-#line 882 "lex.yy.c"
+#line 890 "E:\\BASIC LANGUAGE\\parser\\lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -948,7 +956,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 75 "lexer.l"
+#line 82 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     yycolno += yyleng;
 }
@@ -956,7 +964,7 @@ YY_RULE_SETUP
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 79 "lexer.l"
+#line 86 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     current_token_loc.line = yylineno - 1 > 0 ? yylineno - 1 : 1;
     current_token_loc.column = yycolno;
@@ -968,7 +976,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 88 "lexer.l"
+#line 95 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("COLON", ":");
@@ -977,7 +985,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 94 "lexer.l"
+#line 101 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("SEMICOLON", ";");
@@ -986,7 +994,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 100 "lexer.l"
+#line 107 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("COMMA", ",");
@@ -995,7 +1003,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 106 "lexer.l"
+#line 113 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("LPAREN", "(");
@@ -1004,7 +1012,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 112 "lexer.l"
+#line 119 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("RPAREN", ")");
@@ -1013,7 +1021,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 118 "lexer.l"
+#line 125 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("PLUS", "+");
@@ -1022,7 +1030,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 124 "lexer.l"
+#line 131 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("MINUS", "-");
@@ -1031,7 +1039,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 130 "lexer.l"
+#line 137 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("MULTIPLY", "*");
@@ -1040,7 +1048,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 136 "lexer.l"
+#line 143 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("DIVIDE", "/");
@@ -1049,7 +1057,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 142 "lexer.l"
+#line 149 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("INTDIV", "\\");
@@ -1058,7 +1066,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 148 "lexer.l"
+#line 155 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("POWER", "^");
@@ -1067,7 +1075,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 154 "lexer.l"
+#line 161 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("NOT_EQUALS", "<>");
@@ -1076,7 +1084,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 160 "lexer.l"
+#line 167 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("LESS_EQUALS", "<=");
@@ -1085,7 +1093,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 166 "lexer.l"
+#line 173 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("GREATER_EQUALS", ">=");
@@ -1094,7 +1102,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 172 "lexer.l"
+#line 179 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("LESS_THAN", "<");
@@ -1103,7 +1111,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 178 "lexer.l"
+#line 185 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("GREATER_THAN", ">");
@@ -1112,7 +1120,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 184 "lexer.l"
+#line 191 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("EQUALS", "=");
@@ -1121,7 +1129,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 190 "lexer.l"
+#line 197 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_END_IF", yytext);
@@ -1130,7 +1138,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 196 "lexer.l"
+#line 203 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_ELSEIF", yytext);
@@ -1139,7 +1147,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 202 "lexer.l"
+#line 209 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_LET", yytext);
@@ -1148,7 +1156,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 208 "lexer.l"
+#line 215 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_PRINT", yytext);
@@ -1157,7 +1165,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 214 "lexer.l"
+#line 221 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_INPUT", yytext);
@@ -1166,7 +1174,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 220 "lexer.l"
+#line 227 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_IF", yytext);
@@ -1175,7 +1183,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 226 "lexer.l"
+#line 233 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_THEN", yytext);
@@ -1184,7 +1192,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 232 "lexer.l"
+#line 239 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_ELSE", yytext);
@@ -1193,7 +1201,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 238 "lexer.l"
+#line 245 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_FOR", yytext);
@@ -1202,7 +1210,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 244 "lexer.l"
+#line 251 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_TO", yytext);
@@ -1211,7 +1219,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 250 "lexer.l"
+#line 257 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_STEP", yytext);
@@ -1220,7 +1228,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 256 "lexer.l"
+#line 263 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_NEXT", yytext);
@@ -1229,7 +1237,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 262 "lexer.l"
+#line 269 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_WHILE", yytext);
@@ -1238,7 +1246,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 268 "lexer.l"
+#line 275 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_WEND", yytext);
@@ -1247,7 +1255,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 274 "lexer.l"
+#line 281 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_GOTO", yytext);
@@ -1256,7 +1264,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 280 "lexer.l"
+#line 287 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_GOSUB", yytext);
@@ -1265,7 +1273,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 286 "lexer.l"
+#line 293 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_RETURN", yytext);
@@ -1274,7 +1282,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 292 "lexer.l"
+#line 299 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_END", yytext);
@@ -1283,7 +1291,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 298 "lexer.l"
+#line 305 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_STOP", yytext);
@@ -1292,7 +1300,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 304 "lexer.l"
+#line 311 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_AND", yytext);
@@ -1301,7 +1309,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 310 "lexer.l"
+#line 317 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_OR", yytext);
@@ -1310,7 +1318,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 316 "lexer.l"
+#line 323 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_NOT", yytext);
@@ -1319,7 +1327,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 322 "lexer.l"
+#line 329 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("KEYWORD_MOD", yytext);
@@ -1328,7 +1336,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 328 "lexer.l"
+#line 335 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("COMMENT", yytext);
@@ -1336,7 +1344,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 333 "lexer.l"
+#line 340 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("COMMENT", yytext);
@@ -1344,7 +1352,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 338 "lexer.l"
+#line 345 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("INT_LITERAL", yytext);
@@ -1355,7 +1363,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 346 "lexer.l"
+#line 353 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("FLOAT_LITERAL", yytext);
@@ -1366,7 +1374,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 354 "lexer.l"
+#line 361 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("STRING_LITERAL", yytext);
@@ -1376,7 +1384,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 361 "lexer.l"
+#line 368 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     g_lexical_error_count++;
@@ -1388,16 +1396,16 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 370 "lexer.l"
+#line 377 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     record_tok("IDENTIFIER", yytext);
-    yylval.str_val = strdup(yytext);
+    yylval.str_val = safe_strdup(yytext);
     return TOKEN_IDENTIFIER;
 }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 377 "lexer.l"
+#line 384 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     if (!last_was_eol && !eof_emitted) {
         eof_emitted = 1;
@@ -1412,7 +1420,7 @@ case YY_STATE_EOF(INITIAL):
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 389 "lexer.l"
+#line 396 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 {
     update_loc();
     g_lexical_error_count++;
@@ -1426,10 +1434,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 400 "lexer.l"
+#line 407 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 ECHO;
 	YY_BREAK
-#line 1432 "lex.yy.c"
+#line 1440 "E:\\BASIC LANGUAGE\\parser\\lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2403,6 +2411,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 400 "lexer.l"
+#line 407 "E:\\BASIC LANGUAGE\\parser\\lexer.l"
 
 

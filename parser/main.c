@@ -1,3 +1,10 @@
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -244,6 +251,9 @@ int main(int argc, char *argv[]) {
     }
     free(g_source_lines);
     g_source_lines = NULL;
+
+    fflush(stdout);
+    fflush(stderr);
 
     return is_success ? 0 : 1;
 }

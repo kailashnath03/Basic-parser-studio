@@ -1,7 +1,14 @@
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include "ast.h"
 #include <ctype.h>
 
-static char *safe_strdup(const char *s) {
+char *safe_strdup(const char *s) {
     if (!s) return NULL;
     size_t len = strlen(s);
     char *copy = (char *)malloc(len + 1);

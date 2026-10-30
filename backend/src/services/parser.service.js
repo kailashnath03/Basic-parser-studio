@@ -89,6 +89,12 @@ class ParserService {
                 reject(new Error(`Failed to execute parser process: ${err.message}`));
             });
 
+            child.stdin.on('error', (err) => {
+                if (err.code !== 'EPIPE') {
+                    console.error('Child stdin error:', err);
+                }
+            });
+
             child.on('close', (code, signal) => {
                 const executionTimeMs = Date.now() - startTime;
 
@@ -121,6 +127,7 @@ class ParserService {
                     resolve(parsed);
                 } catch (jsonErr) {
                     // Parser output could not be parsed as JSON
+                    const crashDetail = signal ? `Process killed by signal ${signal}` : (code !== 0 ? `Process exited with code ${code}` : jsonErr.message);
                     resolve({
                         success: false,
                         status: 'INTERNAL_ERROR',
@@ -128,7 +135,7 @@ class ParserService {
                         ast: null,
                         diagnostics: [{
                             type: 'PARSER_CRASH',
-                            message: `Internal parser error: ${stderr || jsonErr.message}`,
+                            message: `Internal parser error: ${stderr ? stderr.trim() : crashDetail}`,
                             line: 1,
                             column: 1,
                             snippet: stdout.slice(0, 200)
