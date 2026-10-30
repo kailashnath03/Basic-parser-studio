@@ -1,8 +1,5 @@
-# Compiled binaries and parser generated files
+# Compiled binaries and parser build artifacts
 parser/*.o
-parser/parser.tab.c
-parser/parser.tab.h
-parser/lex.yy.c
 parser/parser.output
 parser/basic_parser
 parser/basic_parser.exe

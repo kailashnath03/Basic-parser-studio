@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "BASIC Language Parser Studio using Flex and GNU Bison in Yacc-compatible mode",
   "scripts": {
+    "start": "cd backend && node src/server.js",
+    "build": "bash ./render-build.sh || npm run build:backend",
+    "build:backend": "cd parser && (gcc -Wall -Wextra -std=c11 -O2 -o basic_parser main.c ast.c parser.tab.c lex.yy.c || make all) && cd ../backend && npm install",
+    "build:frontend": "cd frontend && npm install && npm run build",
     "build:parser": "cd parser && make all",
     "test:parser": "node parser/run_tests.js",
     "test:api": "cd backend && npm test",
     "test": "node parser/run_tests.js",
     "backend": "cd backend && npm start",
-    "frontend": "cd frontend && npm run dev",
-    "build": "cd frontend && npm install && npm run build"
+    "frontend": "cd frontend && npm run dev"
   },
   "keywords": [
     "compiler-design",
@@ -23,4 +26,3 @@
   "author": "Compiler Design Engineering Team",
   "license": "MIT"
 }
-

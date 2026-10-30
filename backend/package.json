@@ -4,7 +4,7 @@
   "description": "Express backend for BASIC Parser Studio",
   "main": "src/server.js",
   "scripts": {
-    "build": "bash ../render-build.sh || bash render-build.sh",
+    "build": "bash ../render-build.sh || sh ../render-build.sh || (cd ../parser && gcc -Wall -Wextra -std=c11 -O2 -o basic_parser main.c ast.c parser.tab.c lex.yy.c)",
     "start": "node src/server.js",
     "test": "node test/api.test.js"
   },
